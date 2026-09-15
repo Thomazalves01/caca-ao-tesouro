@@ -20,6 +20,7 @@ programa
 	{
 		solicitarPercentuaisNiveis()
 		GerarCenario()
+		exibirResultado()
 	}
 
 	funcao solicitarPercentuaisNiveis()
@@ -52,9 +53,6 @@ programa
 		fim_nivel_3 = 25
 	}
 
-	// ==========================================
-	// GERAÇÃO DO CENÁRIO
-	// ==========================================
 	funcao GerarCenario()
 	{
 		para (inteiro i = 0; i < 5; i++) {
@@ -114,5 +112,34 @@ programa
 	funcao Risco()
 	{
 		bateria = bateria - 3
+	}
+
+	// ==========================================
+	// TELA FINAL DE RESULTADOS
+	// ==========================================
+	funcao exibirResultado()
+	{
+		escreva("\n========== RESULTADO DO JOGO ==========\n")
+		para (inteiro i = 0; i < 5; i++) {
+			para (inteiro j = 0; j < 5; j++) {
+				escreva(tabuleiro[i][j], "\t")
+			}
+			escreva("\n")
+		}
+		escreva("---------------------------------------\n")
+		escreva("Bateria restante: ", bateria, " créditos\n")
+		escreva("Créditos obtidos: ", total_creditos_ganhos, " créditos\n")
+		escreva("Nível atingido: ", nivel_atingido, "\n")
+		
+		se (tesouro_encontrado) {
+			escreva("Tesouro encontrado: SIM\n")
+		} senao {
+			escreva("Tesouro encontrado: NÃO\n")
+		}
+		
+		escreva("Posição do risco:\n")
+		escreva("Casa: ", casa_risco, "\n")
+		escreva("Quantidade de rodadas: ", total_rodadas, "\n")
+		escreva("========================================\n")
 	}
 }
