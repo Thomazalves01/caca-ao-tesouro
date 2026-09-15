@@ -1,6 +1,7 @@
 🏴‍☠️ Jogo Caça ao Tesouro 
 
 Um jogo de tabuleiro sequencial desenvolvido em matriz bidimensional 5 x 5 (25 casas), onde o jogador navega em busca de um tesouro enquanto gerencia seus recursos de bateria.  
+
 📋 Sobre o Projeto
 
 O projeto foi construído aplicando conceitos de lógica de programação, manipulação de matrizes, sorteio de números aleatórios, validação de dados e funções parametrizadas.  O jogador inicia na posição [0,0] com 100 créditos de bateria e avança casa por casa sequencialmente até encontrar o tesouro ou não possuir bateria suficiente para realizar a próxima jogada (mínimo de 10 créditos).  
