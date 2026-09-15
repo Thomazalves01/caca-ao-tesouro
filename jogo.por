@@ -18,12 +18,42 @@ programa
 
 	funcao inicio()
 	{
-		escreva("Jogo iniciado!\n")
+		solicitarPercentuaisNiveis()
 	}
 
 	// ==========================================
-	// FUNÇÕES OBRIGATÓRIAS
+	// CONFIGURAÇÃO DOS NÍVEIS
 	// ==========================================
+	funcao solicitarPercentuaisNiveis()
+	{
+		real p1, p2, p3
+		logico valido = falso
+
+		faca
+		{
+			escreva("========== CONFIGURAÇÃO DOS NÍVEIS ==========\n")
+			escreva("Informe o percentual do Nível I: ")
+			leia(p1)
+			escreva("Informe o percentual do Nível II: ")
+			leia(p2)
+			escreva("Informe o percentual do Nível III: ")
+			leia(p3)
+
+			se (p1 + p2 + p3 == 100.0) {
+				valido = verdadeiro
+			} senao {
+				escreva("\n[ERRO] A soma dos percentuais deve ser exatamente 100%. Tente novamente!\n\n")
+			}
+		} enquanto (nao valido)
+
+		real calc1 = 25.0 * (p1 / 100.0)
+		real calc2 = 25.0 * ((p1 + p2) / 100.0)
+
+		fim_nivel_1 = m.arredondar(calc1, 0)
+		fim_nivel_2 = m.arredondar(calc2, 0)
+		fim_nivel_3 = 25
+	}
+
 	funcao DiminuirBateria()
 	{
 		bateria = bateria - 10
