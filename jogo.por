@@ -19,11 +19,9 @@ programa
 	funcao inicio()
 	{
 		solicitarPercentuaisNiveis()
+		GerarCenario()
 	}
 
-	// ==========================================
-	// CONFIGURAÇÃO DOS NÍVEIS
-	// ==========================================
 	funcao solicitarPercentuaisNiveis()
 	{
 		real p1, p2, p3
@@ -52,6 +50,54 @@ programa
 		fim_nivel_1 = m.arredondar(calc1, 0)
 		fim_nivel_2 = m.arredondar(calc2, 0)
 		fim_nivel_3 = 25
+	}
+
+	// ==========================================
+	// GERAÇÃO DO CENÁRIO
+	// ==========================================
+	funcao GerarCenario()
+	{
+		para (inteiro i = 0; i < 5; i++) {
+			para (inteiro j = 0; j < 5; j++) {
+				tabuleiro[i][j] = "---"
+			}
+		}
+
+		inteiro casa_b05 = u.sorteia(1, 25)
+		colocarElementoNaCasa(casa_b05, "B05")
+
+		inteiro casa_b10 = sortearCasaLivre(1, 25)
+		colocarElementoNaCasa(casa_b10, "B10")
+
+		casa_risco = sortearCasaLivre(fim_nivel_1 + 1, 25)
+		colocarElementoNaCasa(casa_risco, "RIS")
+
+		inteiro casa_tesouro = sortearCasaLivre(fim_nivel_1 + 1, 25)
+		colocarElementoNaCasa(casa_tesouro, "$$$")
+	}
+
+	funcao colocarElementoNaCasa(inteiro numero_casa, cadeia elemento)
+	{
+		inteiro lin = (numero_casa - 1) / 5
+		inteiro col = (numero_casa - 1) % 5
+		tabuleiro[lin][col] = elemento
+	}
+
+	funcao logico casaEstaOcupada(inteiro numero_casa)
+	{
+		inteiro lin = (numero_casa - 1) / 5
+		inteiro col = (numero_casa - 1) % 5
+		retorne tabuleiro[lin][col] != "---"
+	}
+
+	funcao inteiro sortearCasaLivre(inteiro min, inteiro max)
+	{
+		inteiro casa
+		faca {
+			casa = u.sorteia(min, max)
+		} enquanto (casaEstaOcupada(casa))
+
+		retorne casa
 	}
 
 	funcao DiminuirBateria()
