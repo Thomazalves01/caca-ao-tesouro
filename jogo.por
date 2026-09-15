@@ -3,26 +3,74 @@ programa
 	inclua biblioteca Util --> u
 	inclua biblioteca Matematica --> m
 
+	// Variáveis globais do jogador
 	inteiro bateria = 100
 	inteiro total_creditos_ganhos = 0
 	inteiro total_rodadas = 0
 	logico tesouro_encontrado = falso
 
+	// Tabuleiro e controle de nível
 	cadeia tabuleiro[5][5]
 	inteiro casa_risco = 0
 	cadeia nivel_atingido = "I"
 
+	// Limites de casas dos níveis
 	inteiro fim_nivel_1 = 0
 	inteiro fim_nivel_2 = 0
 	inteiro fim_nivel_3 = 25
 
 	funcao inicio()
 	{
+		// 1. Configuração inicial dos níveis
 		solicitarPercentuaisNiveis()
+
+		// 2. Criação do cenário
 		GerarCenario()
+
+		// 3. Execução das rodadas
+		inteiro casa_atual = 1
+
+		enquanto (bateria >= 10 e nao tesouro_encontrado e casa_atual <= 25)
+		{
+			inteiro lin = (casa_atual - 1) / 5
+			inteiro col = (casa_atual - 1) % 5
+
+			// Consumo da rodada
+			DiminuirBateria()
+			total_rodadas++
+
+			// Atualiza o nível atual do jogador
+			se (casa_atual <= fim_nivel_1) {
+				nivel_atingido = "I"
+			} senao se (casa_atual <= fim_nivel_2) {
+				nivel_atingido = "II"
+			} senao {
+				nivel_atingido = "III"
+			}
+
+			// Verifica o conteúdo da casa
+			cadeia conteudo = tabuleiro[lin][col]
+
+			se (conteudo == "B05") {
+				Bonus(5)
+			} senao se (conteudo == "B10") {
+				Bonus(10)
+			} senao se (conteudo == "RIS") {
+				Risco()
+			} senao se (conteudo == "$$$") {
+				tesouro_encontrado = verdadeiro
+			}
+
+			casa_atual++
+		}
+
+		// 4. Tela final
 		exibirResultado()
 	}
 
+	// ==========================================
+	// CONFIGURAÇÃO DOS NÍVEIS
+	// ==========================================
 	funcao solicitarPercentuaisNiveis()
 	{
 		real p1, p2, p3
@@ -53,20 +101,26 @@ programa
 		fim_nivel_3 = 25
 	}
 
+	// ==========================================
+	// GERAÇÃO DO CENÁRIO
+	// ==========================================
 	funcao GerarCenario()
 	{
+		// Inicializa o tabuleiro vazio
 		para (inteiro i = 0; i < 5; i++) {
 			para (inteiro j = 0; j < 5; j++) {
 				tabuleiro[i][j] = "---"
 			}
 		}
 
+		// Sorteia Bônus (qualquer casa entre 1 e 25)
 		inteiro casa_b05 = u.sorteia(1, 25)
 		colocarElementoNaCasa(casa_b05, "B05")
 
 		inteiro casa_b10 = sortearCasaLivre(1, 25)
 		colocarElementoNaCasa(casa_b10, "B10")
 
+		// Sorteia Risco e Tesouro (Restritos aos Níveis II e III)
 		casa_risco = sortearCasaLivre(fim_nivel_1 + 1, 25)
 		colocarElementoNaCasa(casa_risco, "RIS")
 
@@ -98,6 +152,9 @@ programa
 		retorne casa
 	}
 
+	// ==========================================
+	// FUNÇÕES OBRIGATÓRIAS
+	// ==========================================
 	funcao DiminuirBateria()
 	{
 		bateria = bateria - 10
